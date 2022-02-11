@@ -31,5 +31,6 @@ end
 
 println(InsertionSort([]))
 println(InsertionSort([5]))
-println(InsertionSort([3.4,3.344,4.68,5.00,1.12,-23]))
+# println(InsertionSort([3.4,3.344,4.68,5.00,1.12,-23]))
+println(InsertionSort([5,6,2,3,1,6,4,1,8]))
 @btime InsertionSort(rand(1:100, 10^5)) # 2.894 s (2 allocations: 781.30 KiB). If more data, it can take very long to return the result.
