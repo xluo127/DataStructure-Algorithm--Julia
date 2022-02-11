@@ -52,7 +52,6 @@ function swap!(arr, i, j)
     arr[j] = temp
 end
 
-println(ShellSort([]))
 println(ShellSort([5]))
 # println(ShellSort([3.4,3.344,4.68,5.00,1.12,-23]))
 println(ShellSort([5,6,2,3,1,6,4,1,8]))
