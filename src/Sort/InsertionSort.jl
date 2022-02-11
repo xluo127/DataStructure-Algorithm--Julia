@@ -29,7 +29,6 @@ function swap!(arr, i, j)
     arr[j] = temp
 end
 
-println(InsertionSort([]))
 println(InsertionSort([5]))
 # println(InsertionSort([3.4,3.344,4.68,5.00,1.12,-23]))
 println(InsertionSort([5,6,2,3,1,6,4,1,8]))

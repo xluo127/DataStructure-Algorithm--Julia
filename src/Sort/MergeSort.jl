@@ -36,7 +36,6 @@ function Merge(arrl, arrr)
     return arr
 end
 
-println(MergeSort([]))
 println(MergeSort([5]))
 # println(MergeSort([3.4,3.344,4.68,5.00,1.12,-23]))
 println(MergeSort([5,6,2,3,1,6,4,1,8]))
