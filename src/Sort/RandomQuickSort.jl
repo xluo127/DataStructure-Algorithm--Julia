@@ -1,41 +1,44 @@
 using Random
 using BenchmarkTools
 
-function RandomQuickSort(arr, i=1, j=length(arr)) # Cannot in-place?
-    if i == j
+function RandomQuickSort!(arr, i=1, j=length(arr)) 
+    if i >= j
+        return nothing
+    else    
+        pivot_i = partition!(arr, i, j)
+        RandomQuickSort!(arr, i, (pivot_i-1))
+        RandomQuickSort!(arr, (pivot_i+1), j)           
+
         return arr
-    else
-        oi, oj = i, j
-        len = j - i + 1
-        pivot_i = rand(i:j) # Random pivot.
-        swap!(arr, 1, pivot_i)
-        pivot = arr[1]
-        re = Vector{Int32}(undef, len) # Store the results of spliting step.
-        re2 = Vector{Int32}(undef, len) # Store the results of final step.
-        for ii in 2:len
-            if arr[ii] > pivot
-                re[j] = arr[ii]
-                j -= 1
+    end
+end
+
+function partition!(arr, i=1, j=length(arr))
+    pivot_i = rand(i:j) # Random pivot.
+    swap!(arr, i, pivot_i)
+    pivot = arr[i]    
+    casei = false
+    @inbounds while i != j
+        if !casei
+            if arr[j] < pivot
+                arr[i] = arr[j]
+                i += 1
+                casei = !casei
             else
-                re[i] = arr[ii]
+                j -= 1
+            end
+        else
+            if arr[i] >= pivot
+                arr[j] = arr[i]
+                j -= 1
+                casei = !casei
+            else
                 i += 1
             end
         end
-        re[div((i+j), 2)], re2[div((i+j), 2)] = pivot, pivot
-        # println(re)
-        arrl, arrr = (oi == i ? [] : RandomQuickSort(re[oi:(i-1)])), (j == oj ? [] : RandomQuickSort(re[(j+1):oj]))
-        start_i = 1
-        for jj in arrl
-            re2[start_i] = jj
-            start_i += 1
-        end
-        for kk in arrr
-            start_i += 1
-            re2[start_i] = kk
-        end
-
-        return re2
     end
+    arr[i] = pivot
+    i
 end
 
 function swap!(arr, i, j)
@@ -44,8 +47,8 @@ function swap!(arr, i, j)
     arr[j] = temp
 end
 
-println(RandomQuickSort([5]))
-# println(RandomQuickSort([3.4,3.344,4.68,5.00,1.12,-23]))
-println(RandomQuickSort([5,6,2,3,1,6,4,1,8]))
-@btime RandomQuickSort(rand(1:100, 10^5))
-# println(RandomQuickSort(rand(1:100, 10^3)))
+println(RandomQuickSort!([5]))
+# println(RandomQuickSort!([3.4,3.344,4.68,5.00,1.12,-23]))
+println(RandomQuickSort!([5,6,2,3,1,6,4,1,8]))
+@btime RandomQuickSort!(rand(1:100, 10^5))
+# println(RandomQuickSort!(rand(1:100, 10^3)))
