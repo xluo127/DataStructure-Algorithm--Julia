@@ -18,7 +18,7 @@ function partition!(arr, i=1, j=length(arr))
     swap!(arr, i, pivot_i)
     pivot = arr[i]    
     casei = false
-    @inbounds while i != j
+    @inbounds while i != j # double while?
         if !casei
             if arr[j] < pivot
                 arr[i] = arr[j]
@@ -41,7 +41,7 @@ function partition!(arr, i=1, j=length(arr))
     i
 end
 
-function swap!(arr, i, j)
+function swap!(arr, i::Int, j::Int)
     temp = arr[i]
     arr[i] = arr[j]
     arr[j] = temp
